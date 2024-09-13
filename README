@@ -1,0 +1,55 @@
+SpaceX Launches API
+
+- Puerto por defecto: 3000.
+
+Cómo instalar y correr la aplicación localmente:
+
+- Ejecuta el comando `docker-compose up --build` para construir y levantar el servidor localmente.
+- Una vez levantado, la API estará disponible en: http://0.0.0.0:3000/launches.
+- Puedes cambiar el puerto modificando el archivo `docker-compose.yml` en la sección `ports`.
+  Si cambias el puerto, por ejemplo, a 3001, el comando quedaría:
+  ports:
+  - "3001:3000"
+    Luego ejecuta de nuevo `docker-compose up --build` para aplicar los cambios.
+
+Cómo acceder desde el servidor:
+
+- La API también está disponible públicamente en: http://109.199.124.173:3001/launches.
+- Este endpoint te permitirá acceder a los datos de los lanzamientos de SpaceX desde cualquier lugar.
+
+Endpoints disponibles:
+
+- /launches: Devuelve una lista de lanzamientos de SpaceX.
+  - Parámetros opcionales:
+    - limit: Número máximo de resultados a devolver.
+    - offset: Número de resultados a omitir al principio.
+
+Ejemplo de solicitud:
+
+- Local: GET http://0.0.0.0:3000/launches?limit=10&offset=5
+- Servidor: GET http://109.199.124.173:3001/launches?limit=10&offset=5
+
+- Ejemplo de respuesta:
+  [
+  {
+  "flight_number": 1,
+  "mission_name": "FalconSat",
+  "rocket": {
+  "rocket_id": "falcon1",
+  "rocket_name": "Falcon 1",
+  "description": "Primera versión del Falcon 1.",
+  "images": ["https://imgur.com/falcon1.jpg"]
+  },
+  "payloads": [
+  {
+  "payload_id": "FalconSAT-2",
+  "manufacturer": "DARPA",
+  "type": "Satellite"
+  }
+  ]
+  }
+  ]
+
+- La API está configurada para ejecutarse en Docker.
+  El archivo `docker-compose.yml` incluye la configuración necesaria, exponiendo el puerto 3001, montando volúmenes y creando redes para la aplicación.
+  El `Dockerfile` establece la imagen base, copia los archivos y ejecuta la aplicación.
